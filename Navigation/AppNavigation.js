@@ -1,12 +1,12 @@
 import { StackNavigator } from 'react-navigation'
 
-import SetPINScreen from './../Containers/Screens/SetPINScreen'
-import ConfirmPINScreen from './../Containers/Screens/ConfirmPINScreen';
-import LoginScreen from './../Containers/Screens/LoginScreen'
-import RegistrationScreen from './../Containers/Screens/RegisterationScreen'
-import ProfileScreen from './../Containers/Screens/ProfileScreen'
-import ChangePasswordScreen from './../Containers/Screens/ChangePasswordScreen';
-import NoWifiScreen from './../Containers/Screens/NoWifiScreen';
+// import SetPINScreen from './../Containers/Screens/SetPINScreen'
+// import ConfirmPINScreen from './../Containers/Screens/ConfirmPINScreen';
+// import LoginScreen from './../Containers/Screens/LoginScreen'
+// import RegistrationScreen from './../Containers/Screens/RegisterationScreen'
+// import ProfileScreen from './../Containers/Screens/ProfileScreen'
+// import ChangePasswordScreen from './../Containers/Screens/ChangePasswordScreen';
+// import NoWifiScreen from './../Containers/Screens/NoWifiScreen';
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
