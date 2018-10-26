@@ -3,7 +3,7 @@ import PrimaryNav from './../Navigation/AppNavigation'
 export default class App extends Component {
   render() {
     return (
-      <PrimaryNav/>
+      <PrimaryNav/> 
     )
   }
 }
