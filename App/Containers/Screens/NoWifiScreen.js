@@ -7,6 +7,10 @@ import {
     Alert
 } from 'react-native';
 
+// screen for navigation 
+import SetPINScreen from './SetPINScreen';
+
+// component
 import NoWifi from './../../Component/No-Wifi';
 
 export default class NoWifiScreen extends Component {
@@ -32,27 +36,19 @@ export default class NoWifiScreen extends Component {
         NetInfo.removeEventListener('connectionChange', this.onConnectivityChange)
     }
 
-
     onConnectivityChange = reach => {
         // const type = reach.toLowerCase();
         this.setState({
-            online: reach === 'none',
-            offline: reach !== 'none'
+            online: reach !== 'none',
+            offline: reach === 'none'
         })
     }
 
     render() {
-        if (this.state.offline) {
+        if (!this.state.online) {
             return <NoWifi />
         } else {
-            return (
-
-                <View style={styles.container}>
-                    <Text style={styles.toolbar}>My Awesome App</Text>
-                    <Text style={styles.text}>Lorem...</Text>
-                    <Text style={styles.text}>Lorem ipsum...</Text>
-                </View>
-            )
+            return <SetPINScreen/>
 
         }
     }
