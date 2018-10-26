@@ -1,23 +1,22 @@
-import { StyleSheet, Dimensions, } from 'react-native'
-
+import { StyleSheet, Dimensions } from 'react-native'
 const { width, height } = Dimensions.get('window')
+
+
 const styles = StyleSheet.create({
-    bgImage:{
-        position: 'absolute',
+    container: {
         width: width,
-        height: height
+        height: height,
+        flex: 2,
+        alignItems: 'center',
+        backgroundColor: 'white'
     },
 
-    container:{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(255, 255, 247)',
-    },
-    logo:{
-        width: width * 0.4,
-        height: height * 0.2
+    logo: {
+        marginTop: height * 0.35,
+        width: width * 0.5,
+        height: height * 0.3
     }
+
 });
 
 export default styles;
