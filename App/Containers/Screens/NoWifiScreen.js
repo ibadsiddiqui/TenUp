@@ -1,72 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
-    NetInfo,
-    StyleSheet,
-    Text,
-    View,
-    Alert
-} from 'react-native';
-
-// screen for navigation 
-import SetPINScreen from './SetPINScreen';
-
-// component
-import NoWifi from './../../Component/No-Wifi';
+    Image, 
+    Text, 
+    TouchableOpacity,
+    View, 
+} from 'react-native'
+import styles from './../Styles/NoWifiScreenStyles'
 
 export default class NoWifiScreen extends Component {
-    constructor() {
-        super();
-        this.state = {
-            online: null,
-            offline: null,
-        }
-    }
-
-    // Network Check
-    componentWillMount() {
-        NetInfo.getConnectionInfo().then(reach => {
-            // Alert.alert('Connection info', reach.type)
-            this.onConnectivityChange(reach);
-        });
-        NetInfo.addEventListener('connectionChange', this.onConnectivityChange)
-    }
-
-    // removes listener
-    componentWillUnmount() {
-        NetInfo.removeEventListener('connectionChange', this.onConnectivityChange)
-    }
-
-    onConnectivityChange = reach => {
-        // const type = reach.toLowerCase();
-        this.setState({
-            online: reach !== 'none',
-            offline: reach === 'none'
-        })
-    }
-
     render() {
-        if (!this.state.online) {
-            return <NoWifi />
-        } else {
-            return <SetPINScreen/>
+        return (
+            <View style={styles.backgroundContainer}>
+                <View style={styles.centerContainer}>
 
-        }
+                    <Image source={require('./../../Assets/no-wifi-screen/no-internet.png')} style={styles.imageContainer} resizeMode="contain" />
+
+                    <Text style={styles.connectionText}>No Internet Connection</Text>
+
+                    <TouchableOpacity style={[styles.centered, styles.loginBtnContainer]}>
+                        <Text style={styles.loginText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-    },
-    toolbar: {
-        backgroundColor: '#3498db',
-        padding: 15,
-        fontSize: 20,
-        color: '#fff',
-        textAlign: 'center',
-    },
-    text: {
-        padding: 10,
-    },
-});
