@@ -41,26 +41,32 @@ export default class LoginScreen extends Component {
 
 
   checkUsername(text) {
-    if(text === ""){
-      return 
-    }else {
-      var RegexResult = '/^[a-zA-Z0-9]+$'
-      return RegexResult.test(text)
-
-    }
+    var RegexResult = /^[a-zA-Z0-9]{8,16}$/
+    return RegexResult.test(text)
   }
 
   async setUsername(text) {
-    result = await this.checkUsername(text)
-    if (result) {
-      this.setState({
-        username: text,
-        regexTest: false
-      });
-    } else {
+    if (text === "") {
+
+      this.setState({ username: text })
+
+    } else if (text === " "){
       this.setState({
         regexTest: true
       });
+    } else if (text.length >=8){
+
+      result = await this.checkUsername(text)
+      if (result) {
+        this.setState({
+          username: text,
+          regexTest: false
+        });
+      } else {
+        this.setState({
+          regexTest: true
+        });
+      }
     }
   }
 
@@ -139,7 +145,7 @@ export default class LoginScreen extends Component {
                 {
                   this.state.regexTest
                   &&
-                  <View style={styles.infoIconStyle}>
+                  <View style={styles.errorIconStyle}>
                     <Image source={require('./../../Assets/alert/info.png')} style={styles.usernameIcon} />
                   </View>
                 }
@@ -159,7 +165,7 @@ export default class LoginScreen extends Component {
 
                   &&
 
-                  <View style={styles.infoIconStyle}>
+                  <View style={styles.errorIconStyle}>
                     <Image source={require('./../../Assets/alert/info.png')} style={styles.usernameIcon} />
                   </View>
 
