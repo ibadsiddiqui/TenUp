@@ -7,6 +7,7 @@ import {
   AsyncStorage,
   TextInput,
   ToastAndroid,
+  BackHandler,
   TouchableOpacity,
   Keyboard,
   KeyboardAvoidingView
@@ -14,6 +15,7 @@ import {
 import styles from '../Styles/PINScreenStyles';
 
 import { StackActions, NavigationActions } from 'react-navigation';
+import Loader from '../../Component/Loader';
 
 export default class SetPINScreen extends Component {
 
@@ -38,12 +40,25 @@ export default class SetPINScreen extends Component {
     try {
       const value = await AsyncStorage.getItem('PINCode');
       if (value !== null) {
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'ConfirmPINScreen' })],
-        });
-        this.props.navigation.dispatch(resetAction);
-      }else {
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [NavigationActions.navigate({ routeName: 'ConfirmPINScreen' })],
+        // });
+        // this.props.navigation.dispatch(resetAction);
+        setTimeout(() => {
+          this.setState({
+            value: true
+          })
+
+        }, 3000);
+        this.props.navigation.navigate('ConfirmPINScreen')
+      } else {
+        setTimeout(() => {
+          this.setState({
+            value: false
+          })
+
+        }, 3000);
         ToastAndroid.show('Please Set a PIN for the App', ToastAndroid.BOTTOM);
       }
     } catch (error) {
@@ -51,10 +66,10 @@ export default class SetPINScreen extends Component {
     }
   }
 
-  // async componentDidMount() {
-  //   await SplashScreen.hide();
-    
-  // }
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => { return true });
+  }
+
 
   focusTextInput2(text) {
     this.setState({ password: this.state.password + text })
@@ -93,46 +108,68 @@ export default class SetPINScreen extends Component {
 
 
   render() {
+    const loader = <Loader />
     return (
       <KeyboardAvoidingView style={styles.container} >
 
-        <Text style={styles.centered}>Set a PIN:</Text>
-        <View style={styles.rowView}>
-          <TextInput
-            maxLength={1}
-            style={styles.textInput}
-            keyboardType="number-pad"
-            onChangeText={(text) => this.focusTextInput2(text)} />
+        {
+          this.state.value === true
+            &&
+          loader
+        }
+        {
+          this.state.value === false
+          &&
+          <View style={styles.container}>
+            <Text style={styles.centered}>Set a PIN:</Text>
+            <View style={styles.rowView}>
+              <TextInput
+                maxLength={1}
+                placeholder="*"
+                style={styles.textInput}
+                keyboardType="number-pad"
+                onChangeText={(text) => this.focusTextInput2(text)}
+                secureTextEntry />
 
-          <TextInput maxLength={1}
-            style={styles.textInput}
-            keyboardType="number-pad"
-            ref={this.textInput2}
-            onChangeText={(text) => this.focusTextInput3(text)} />
+              <TextInput
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={(text) => this.focusTextInput3(text)}
+                placeholder="*"
+                ref={this.textInput2}
+                style={styles.textInput}
+                secureTextEntry />
 
-          <TextInput maxLength={1}
-            style={styles.textInput}
-            keyboardType="number-pad"
-            ref={this.textInput3}
-            onChangeText={(text) => this.focusTextInput4(text)} />
+              <TextInput
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={(text) => this.focusTextInput4(text)}
+                placeholder="*"
+                ref={this.textInput3}
+                style={styles.textInput}
+                secureTextEntry />
 
-          <TextInput maxLength={1}
+              <TextInput
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={(text) => this.focusRemove(text)}
+                placeholder="*"
+                ref={this.textInput4}
+                style={styles.textInput}
+                secureTextEntry />
 
-            style={styles.textInput}
-            keyboardType="number-pad"
-            ref={this.textInput4}
-            onChangeText={(text) => this.focusRemove(text)} />
+            </View>
 
-        </View>
-
-        <View style={styles.containerBtn}>
-          <TouchableOpacity
-            onPress={this.onSubmit}
-            style={styles.btn}>
-            <Text style={styles.btnText}>Save</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView >
+            <View style={styles.containerBtn}>
+              <TouchableOpacity
+                onPress={this.onSubmit}
+                style={styles.btn}>
+                <Text style={styles.btnText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        }
+      </KeyboardAvoidingView>
     );
   }
 }
