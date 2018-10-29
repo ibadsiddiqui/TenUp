@@ -5,7 +5,7 @@ import SplashScreenLoader from './../Containers/Screens/SplashScreen';
 import SetPINScreen from './../Containers/Screens/SetPINScreen';
 import ConfirmPINScreen from './../Containers/Screens/ConfirmPINScreen';
 
-// import LoginScreen from './../Containers/Screens/LoginScreen'
+import LoginScreen from './../Containers/Screens/LoginScreen'
 // import RegistrationScreen from './../Containers/Screens/RegisterationScreen'
 // import ProfileScreen from './../Containers/Screens/ProfileScreen'
 // import ChangePasswordScreen from './../Containers/Screens/ChangePasswordScreen';
@@ -19,7 +19,7 @@ const PrimaryNav = StackNavigator({
     screen: ConfirmPINScreen,
     headerLeft: null
   },
-  // LoginScreen: { screen: LoginScreen },
+  LoginScreen: { screen: LoginScreen },
   // RegistrationScreen: { screen: RegistrationScreen },
   // ProfileScreen: { screen: ProfileScreen },
   // ChangePassswordScreen: { screen: ChangePasswordScreen }

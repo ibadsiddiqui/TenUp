@@ -67,16 +67,16 @@ export default class SplashScreenLoader extends Component {
                     online: true,
                 })
 
-            }, 5000);
+            }, 3000);
         } else {
             setTimeout(() => {
-
                 this.setState({
                     isFetching: false,
                     offline: true,
                     online: false,
                 })
-            }, 5000);
+
+            }, 3000);
         }
 
     }
@@ -84,7 +84,8 @@ export default class SplashScreenLoader extends Component {
 
         const Load = <Loader/>
         return (
-            this.state.isFetching == true && Load
+            this.state.isFetching == true && 
+                <Loader/>
                             ||
             (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('SetPINScreen')
                             ||
