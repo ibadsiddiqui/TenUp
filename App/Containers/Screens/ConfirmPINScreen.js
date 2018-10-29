@@ -129,6 +129,7 @@ export default class ConfirmPINScreen extends Component {
             placeholder="*"
             ref={this.textInput1}
             style={styles.textInput}
+            secureTextEntry
             value={this.state.input1} />
 
           <TextInput
@@ -138,6 +139,7 @@ export default class ConfirmPINScreen extends Component {
             placeholder="*"
             ref={this.textInput2}
             style={styles.textInput}
+            secureTextEntry
             value={this.state.input2} />
 
           <TextInput
@@ -147,6 +149,7 @@ export default class ConfirmPINScreen extends Component {
             placeholder="*"
             ref={this.textInput3}
             style={styles.textInput}
+            secureTextEntry
             value={this.state.input3} />
 
           <TextInput
@@ -156,6 +159,7 @@ export default class ConfirmPINScreen extends Component {
             placeholder="*"
             ref={this.textInput4}
             style={styles.textInput}
+            secureTextEntry
             value={this.state.input4} />
 
         </View>
