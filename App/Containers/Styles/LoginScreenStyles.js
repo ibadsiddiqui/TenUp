@@ -7,48 +7,56 @@ const styles = StyleSheet.create({
         width: width,
         height: height
     },
-    centered:{
+    centered: {
         alignContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center'
     },
-    
+
     container: {
-        marginTop: width * 0.2,
+        marginTop: width * 0.15,
         alignItems: 'center',
 
     },
 
-    forgotPasswordContainer:{
+    forgotPasswordContainer: {
         left: width * 0.24
     },
 
-    forgotPasswordText:{
+    forgotPasswordText: {
         color: 'white',
         fontSize: width * 0.033,
 
     },
-    
-    headingText:{
+
+    headingText: {
         fontSize: width * 0.06,
         color: 'white',
         fontWeight: 'normal',
         marginLeft: width * 0.02,
         marginTop: height * 0.01
     },
-    
-    headingContainer:{
+
+    headingContainer: {
         height: height * 0.06,
         marginLeft: width * 0.13,
         marginTop: height * 0.13,
     },
-
-    loginTextLine:{
+    infoIconStyle: {
+        borderWidth: 2,
+        borderBottomColor: 'rgb(131,182,228)',
+        borderColor: "transparent",
+        marginLeft: -20,
+        paddingBottom: height * 0.061,
+        width: 25,
+        height: 20,
+    },
+    loginTextLine: {
         width: width * 0.01,
         height: height * 0.06
     },
-    loginBtnContainer:{
+    loginBtnContainer: {
         marginTop: 20,
         width: width * 0.33,
         height: height * 0.06,
@@ -56,37 +64,37 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
 
-    loginText:{
+    loginText: {
         fontSize: width * 0.04,
-        color : 'white',
+        color: 'white',
         fontWeight: '600'
     },
 
-    midMargin:{
+    midMargin: {
         marginLeft: width * 0.09,
         marginRight: width * 0.09
     },
     rowView: {
         flexDirection: 'row',
     },
-    signUpContainer:{
+    signUpContainer: {
         marginTop: height * 0.1,
     },
-    signUpText:{
+    signUpText: {
         color: 'white',
         fontSize: width * 0.045,
         marginBottom: width * 0.05
     },
-    subtitle:{
+    subtitle: {
         marginLeft: width * 0.13,
         marginTop: height * 0.02,
     },
 
-    subtitleText:{
+    subtitleText: {
         color: 'rgb(128,165,218)',
         fontSize: width * 0.035
     },
-    
+
     textInput: {
         borderBottomColor: 'rgb(131,182,228)',
         borderColor: 'transparent',
@@ -101,20 +109,24 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none'
     },
 
-    usernameIcon:{
+    usernameIcon: {
         width: 25,
         height: 25,
     },
 
-    usernameIconStyle:{
+    usernameIconStyle: {
         borderWidth: 2,
         borderBottomColor: 'rgb(131,182,228)',
         borderColor: "transparent",
         marginBottom: 10,
-        marginRight:-10,
+        marginRight: -10,
         paddingBottom: 25,
         width: 45,
         height: 40,
+    },
+    welcomeTextLine: {
+        width: width * 0.01,
+        height: height * 0.08
     }
 });
 
