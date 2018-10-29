@@ -43,11 +43,12 @@ const styles = StyleSheet.create({
         marginLeft: width * 0.13,
         marginTop: height * 0.13,
     },
-    infoIconStyle: {
+    errorIconStyle: {
         borderWidth: 2,
         borderBottomColor: 'rgb(131,182,228)',
         borderColor: "transparent",
-        marginLeft: -20,
+        marginLeft: -30,
+        marginRight: 5,
         paddingBottom: height * 0.061,
         width: 25,
         height: 20,
