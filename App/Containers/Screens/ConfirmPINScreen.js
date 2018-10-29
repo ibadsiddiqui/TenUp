@@ -10,6 +10,7 @@ import {
   ToastAndroid,
   TouchableOpacity,
   View,
+  BackHandler,
 } from 'react-native';
 import styles from '../Styles/PINScreenStyles';
 
@@ -37,6 +38,11 @@ export default class ConfirmPINScreen extends Component {
       input4: "",
     }
     this.state = this.defaultState;
+  }
+
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => { return true });
   }
 
   async onSubmit() {
@@ -117,7 +123,6 @@ export default class ConfirmPINScreen extends Component {
         <Text style={styles.centered}>Enter a PIN</Text>
         <View style={styles.rowView}>
           <TextInput
-            autoFocus={true}
             keyboardType="number-pad"
             maxLength={1}
             onChangeText={(text) => this.focusTextInput2(text)}

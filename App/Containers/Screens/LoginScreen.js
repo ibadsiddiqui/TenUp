@@ -12,7 +12,6 @@ import {
 } from 'react-native'
 import styles from "./../Styles/LoginScreenStyles";
 import SplashScreen from 'react-native-splash-screen'
-import QRCodeGenerator from '../../Component/QR-Code-Generator';
 
 export default class LoginScreen extends Component {
   constructor() {
