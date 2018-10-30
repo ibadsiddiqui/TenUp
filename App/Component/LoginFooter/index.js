@@ -11,7 +11,7 @@ export default class LoginFooter extends Component {
     render() {
         return (
             <View style={[styles.centered, styles.signUpContainer]}>
-                <Text style={styles.signUpText}>Sign up with</Text>
+                <Text style={styles.signUpText}>Login with</Text>
 
                 <View style={styles.rowView}>
                     <TouchableOpacity>
