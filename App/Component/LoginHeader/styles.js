@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     headingContainer:{
         height: height * 0.06,
         marginLeft: width * 0.13,
-        marginTop: height * 0.13,
+        marginTop: height * 0.11,
     },
 
     loginTextLine:{
