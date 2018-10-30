@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  Alert,
+  ToastAndroid,
   Image,
   StatusBar,
   BackHandler,
@@ -30,7 +30,6 @@ export default class LoginScreen extends Component {
       loginToken: "",
       isUserLoggedIn: false,
       attemptingLogin: false,
-      regexTest: null,
     }
   }
 
@@ -41,33 +40,38 @@ export default class LoginScreen extends Component {
 
 
   checkUsername(text) {
-    var RegexResult = /^[a-zA-Z0-9]{8,16}$/
-    return RegexResult.test(text)
+    var RegexResult = /^[a-zA-Z0-9]{8,30}$/
+    return RegexResult.test(text);
+  }
+  checkPassword(text) {
+    var passwordRegex = /^((?=(.*[A-Z]){1})(?=(.*[0-9]){1})(?=.*[a-zA-Z0-9])).{8,}$/;
+    return passwordRegex.test(text)
   }
 
-  async setUsername(text) {
-    if (text === "") {
 
-      this.setState({ username: text })
+  setUsername(text) {
+    var username = text.replace(/\s+/g, '');
+    username = username.replace(/\@/g, '');
+    username = username.replace(/\!/g, '');
+    username = username.replace(/\./g, '');
+    username = username.replace(/\-/g, '');
+    username = username.replace(/\=/g, '');
+    username = username.replace(/\`/g, '');
+    username = username.replace(/\,/g, '');
+    username = username.replace(/\//g, '');
+    username = username.replace(/\+/g, '');
+    username = username.replace(/\_/g, '');
+    username = username.replace(/\#/g, '');
+    username = username.replace(/\$/g, '');
+    username = username.replace(/\%/g, '');
+    username = username.replace(/\&/g, '');
+    username = username.replace(/\*/g, '');
+    username = username.replace(/\(/g, '');
+    username = username.replace(/\)/g, '');
 
-    } else if (text === " "){
-      this.setState({
-        regexTest: true
-      });
-    } else if (text.length >=8){
-
-      result = await this.checkUsername(text)
-      if (result) {
-        this.setState({
-          username: text,
-          regexTest: false
-        });
-      } else {
-        this.setState({
-          regexTest: true
-        });
-      }
-    }
+    this.setState({
+      username: username
+    });
   }
 
   setPassword(text) {
@@ -78,40 +82,63 @@ export default class LoginScreen extends Component {
 
 
   async onSubmit() {
+    if (this.state.password !== "" && this.state.username !== "") {
 
-    this.setState({
-      attemptingLogin: true,
-    })
-    setTimeout(async () => {
-      await this.setState({
-        attemptingLogin: false,
-        isUserLoggedIn: true
-      })
-    }, 3000);
+      if (this.checkUsername(this.state.username.toString())) {
+        if (this.checkPassword(this.state.password.toString())) {
+          this.setState({
+            attemptingLogin: true,
+          })
+          await setTimeout(() => {
 
-    // await fetch('http://192.168.100.32:3000/api/auth/login', {
-    //   method: 'POST', // or 'PUT'
-    //   body: JSON.stringify({
-    //     Username: this.state.username,
-    //     password: this.state.password
-    //   }), // data can be `string` or {object}!
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(res => res.json())
-    //   .then(async response => {
-    //     if (response.isUserLoggedIn) {
-    //       this.props.navigation.navigate('ProfileScreen')
-    //       await AsyncStorage.setItem('loginToken', response.token);
-    //     }
-    //   })
-    //   .catch(error => Alert.alert('Error:', error));
+            fetch('http://192.168.15.145:3000/api/auth/login', {
+              method: 'POST', // or 'PUT'
+              body: JSON.stringify({
+                username: "Ibadsiddiqui01",
+                password: "Ibad0110"
+              }), // data can be `string` or {object}!
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }).then(res => res.json())
+              .then(async response => {
+                if (response.isUserLoggedIn) {
+                  await AsyncStorage.setItem('loginToken', response.token);
+                  this.setState({
+                    isUserLoggedIn: response.isUserLoggedIn,
+                    attemptingLogin: false,
+                  })
+                  // this.props.navigation.navigate('ProfileScreen')
+                } else {
+                  this.setState({
+                    attemptingLogin: false,
+                    isUserLoggedIn: response.isUserLoggedIn,
+
+                  })
+                }
+              })
+              .catch(error => Alert.alert('Error:', error));
+          }, 3000);
+        } else {
+          ToastAndroid.showWithGravity('Please Enter A Valid Password', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+        }
+      }
+      else {
+        ToastAndroid.showWithGravity('Please Enter A Valid Username', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+      }
+    } else {
+      ToastAndroid.showWithGravity('Please Enter Your Credentials', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+    }
+
+
+
   }
   render() {
     return (
       <View >
         <StatusBar backgroundColor="transparent" translucent={true} />
-        <Image source={require('./../../Assets/login-screen/background.jpg')} resizeMode="cover" style={styles.backgroundImage} />
+        <Image source={require('./../../Assets/login-screen/background.png')} resizeMode="cover" style={styles.backgroundImage} />
 
         {
           this.state.attemptingLogin === true && this.state.isUserLoggedIn === false
@@ -141,35 +168,21 @@ export default class LoginScreen extends Component {
                   style={styles.textInput}
                   placeholder="Enter Username"
                   placeholderTextColor="white"
-                  onChangeText={(text) => this.setUsername(text)} />
-                {
-                  this.state.regexTest
-                  &&
-                  <View style={styles.errorIconStyle}>
-                    <Image source={require('./../../Assets/alert/info.png')} style={styles.usernameIcon} />
-                  </View>
-                }
+                  onChangeText={(text) => this.setUsername(text)}
+                  value={this.state.username} />
               </View>
               <View style={styles.rowView}>
                 <View style={styles.usernameIconStyle}>
-                  <Image source={require('./../../Assets/login-screen/password.png')} style={styles.usernameIcon} />
+                  <Image source={require('./../../Assets/login-screen/password.png')} style={styles.errorIcon} />
                 </View>
                 <TextInput
+                  on
                   style={styles.textInput}
                   placeholder="Enter Password"
                   placeholderTextColor="white"
-                  secureTextEntry
-                  onChangeText={(text) => this.setPassword(text)} />
-                {
-                  this.state.regexTest
+                  onChangeText={(text) => this.setPassword(text)}
+                  value={this.state.password} />
 
-                  &&
-
-                  <View style={styles.errorIconStyle}>
-                    <Image source={require('./../../Assets/alert/info.png')} style={styles.usernameIcon} />
-                  </View>
-
-                }
               </View>
               <View style={styles.forgotPasswordContainer}>
                 <Text style={styles.forgotPasswordText}> Forgot Password? </Text>
