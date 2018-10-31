@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import SplashScreen from 'react-native-splash-screen'
-import { Button } from 'react-native-elements'
 
 import {
     View,
@@ -13,7 +11,7 @@ import {
 } from 'react-native';
 import ProfileView from './../../Component/ProfileView';
 import EditView from './../../Component/EditView'
-import QRCodeGenerator from './../../Component/QR-Code-Generator'
+
 export default class ProfileScreen extends Component {
     constructor() {
         super();
