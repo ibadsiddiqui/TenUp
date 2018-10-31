@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
     userIconStyle:{
         alignSelf: 'center',
-        marginTop: height * 0.05,
+        marginBottom: height * 0.05,
     },
     welcomeTextLine: {
         width: width * 0.01,

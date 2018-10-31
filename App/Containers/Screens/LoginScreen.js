@@ -24,6 +24,7 @@ export default class LoginScreen extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
+    this.moveToSignUp = this.moveToSignUp.bind(this)
     this.state = {
       username: "",
       password: "",
@@ -131,8 +132,10 @@ export default class LoginScreen extends Component {
       ToastAndroid.showWithGravity('Please Enter Your Credentials', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
     }
 
+  }
 
-
+  moveToSignUp(){
+    this.props.navigation.navigate('RegistrationScreen')
   }
   render() {
     return (
@@ -190,7 +193,7 @@ export default class LoginScreen extends Component {
               <TouchableOpacity style={[styles.centered, styles.loginBtnContainer]} onPress={this.onSubmit}>
                 <Text style={styles.loginText}>Login</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.centered, styles.loginBtnContainer]} onPress={this.onSubmit}>
+              <TouchableOpacity style={[styles.centered, styles.loginBtnContainer]} onPress={this.moveToSignUp}>
                 <Text style={styles.loginText}>Sign Up</Text>
               </TouchableOpacity>
             </View>
