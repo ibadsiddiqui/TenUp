@@ -6,7 +6,7 @@ import {
     StatusBar,
     BackHandler,
     TextInput,
-    ToastAndroid,
+    AsyncStorage,
     TouchableOpacity,
 } from 'react-native'
 import styles from "./../Styles/RegistrationScreenStyles";
@@ -34,6 +34,7 @@ export default class RegisterScreen extends Component {
     }
 
     async setUsername(text) {
+
         var username = text.replace(/\s+/g, '');
         username = username.replace(/\@/g, '');
         username = username.replace(/\!/g, '');
@@ -56,17 +57,17 @@ export default class RegisterScreen extends Component {
         this.setState({
             username: username
         });
-        await AsyncStorage.setItem('fullname', this.state.fullname);
     }
     async setFullName(text) {
         this.setState({
             fullname: text
         });
-    
-        await AsyncStorage.setItem('fullname', this.state.fullname);
-
+        
     }
-    moveToAgeAndGender() {
+    async moveToAgeAndGender() {
+        await AsyncStorage.setItem('fullname', this.state.fullname);
+        await AsyncStorage.setItem('username', this.state.username);
+
         if (this.state.fullname !== '' && this.state.username !== '') {
             this.props.navigation.navigate('AgeAndGender');
         } else {
