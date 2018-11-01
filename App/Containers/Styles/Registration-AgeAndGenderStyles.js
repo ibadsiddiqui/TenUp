@@ -19,47 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    forgotPasswordContainer: {
-        left: width * 0.24
-    },
 
-    forgotPasswordText: {
-        color: 'white',
-        fontSize: width * 0.033,
-
-    },
-
-    headingText: {
-        fontSize: width * 0.06,
-        color: 'white',
-        fontWeight: 'normal',
-        marginLeft: width * 0.02,
-        marginTop: height * 0.01
-    },
-
-    headingContainer: {
-        height: height * 0.06,
-        marginLeft: width * 0.13,
-        marginTop: height * 0.13,
-    },
-    errorIcon: {
-        width: 25,
-        height: 25,
-    },
-    errorIconStyle: {
-        // borderWidth: 2,
-        // borderBottomColor: 'rgb(131,182,228)',
-        // borderColor: "transparent",
-        marginLeft: -30,
-        marginRight: 5,
-        marginTop: 7,
-        width: 25,
-        height: 20,
-    },
-    loginTextLine: {
-        width: width * 0.01,
-        height: height * 0.06
-    },
     nextBtnContainer: {
         marginTop: 20,
         width: width * 0.33,
@@ -74,7 +34,15 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
 
-
+    genderPickerStyle: {
+        height: height * 0.1,
+        width: width * 0.1,
+        color: 'white',
+        position: 'absolute',
+        paddingLeft: width * 0.7,
+        marginLeft: width * 0.085,
+        marginTop: -(width * 0.045),
+    },
     rowView: {
         flexDirection: 'row',
         marginTop: width * 0.04

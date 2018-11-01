@@ -8,7 +8,8 @@ import {
     TextInput,
     ToastAndroid,
     TouchableOpacity,
-    AsyncStorage
+    AsyncStorage,
+    Picker
 } from 'react-native'
 import styles from "./../Styles/Registration-AgeAndGenderStyles";
 import SplashScreen from 'react-native-splash-screen'
@@ -24,8 +25,8 @@ export default class RegistrationAgeAndGender extends Component {
 
         this.moveToCityAndEmail = this.moveToCityAndEmail.bind(this)
         this.state = {
-            age: '',
-            gender: '',
+            age: "Select Your Age",
+            gender: 'Male',
         }
     }
 
@@ -39,13 +40,13 @@ export default class RegistrationAgeAndGender extends Component {
             age: text
         });
 
+        await AsyncStorage.setItem('age', this.state.age)
 
     }
     async setGender(text) {
         this.setState({
             gender: text
         });
-        await AsyncStorage.setItem('age', this.state.age)
         await AsyncStorage.setItem('gender', this.state.gender)
 
     }
@@ -75,7 +76,7 @@ export default class RegistrationAgeAndGender extends Component {
                         style={{ width: 200 }}
                         date={this.state.date}
                         mode="date"
-                        placeholder="Select Your Age"
+                        placeholder={this.state.age}
                         format="YYYY-MM-DD"
 
                         confirmBtnText="Confirm"
@@ -89,9 +90,7 @@ export default class RegistrationAgeAndGender extends Component {
                         <TextInput
                             style={styles.textInput}
                             editable={false}
-                            placeholderTextColor="white"
-                            onChangeText={(text) => this.setAge(text)}
-                            disable={true}/>
+                            disable={true} />
                     </View>
                     <View style={styles.rowView}>
                         <View style={styles.genderIconStyle}>
@@ -99,12 +98,15 @@ export default class RegistrationAgeAndGender extends Component {
                         </View>
                         <TextInput
                             style={styles.textInput}
-                            placeholder="Gender"
-                            placeholderTextColor="white"
-                            onChangeText={(text) => this.setGender(text)}
-                            value={this.state.gender}
-                            keyboardType="ascii-capable" />
+                            editable={false}/>
 
+                        <Picker
+                            selectedValue={this.state.gender}
+                            style={styles.genderPickerStyle}
+                            onValueChange={(itemValue) => this.setGender(itemValue)}>
+                            <Picker.Item label="Male" value="Male" />
+                            <Picker.Item label="Femail" value="Female" />
+                        </Picker>
                     </View>
 
 
