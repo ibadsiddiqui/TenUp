@@ -85,7 +85,7 @@ export default class SplashScreenLoader extends Component {
         const Load = <Loader/>
         return (
             this.state.isFetching == true && 
-                <Loader/>
+                Load
                             ||
             (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('SetPINScreen')
                             ||
