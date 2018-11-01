@@ -18,49 +18,11 @@ const styles = StyleSheet.create({
         marginTop: width * 0.11,
         alignItems: 'center',
     },
-
-    forgotPasswordContainer: {
-        left: width * 0.24
-    },
-
-    forgotPasswordText: {
-        color: 'white',
-        fontSize: width * 0.033,
-
-    },
-
-    headingText: {
-        fontSize: width * 0.06,
-        color: 'white',
-        fontWeight: 'normal',
-        marginLeft: width * 0.02,
-        marginTop: height * 0.01
-    },
-
-    headingContainer: {
-        height: height * 0.06,
-        marginLeft: width * 0.13,
-        marginTop: height * 0.13,
-    },
-    errorIcon: {
-        width: 25,
-        height: 25,
-    },
-    errorIconStyle: {
-        // borderWidth: 2,
-        // borderBottomColor: 'rgb(131,182,228)',
-        // borderColor: "transparent",
-        marginLeft: -30,
-        marginRight: 5,
-        marginTop: 7,
-        width: 25,
-        height: 20,
-    },
     loginTextLine: {
         width: width * 0.01,
         height: height * 0.06
     },
-    nextBtnContainer: {
+    doneBtnContainer: {
         marginTop: 20,
         width: width * 0.33,
         height: height * 0.06,
@@ -68,7 +30,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
 
-    nextText: {
+    doneText: {
         fontSize: width * 0.04,
         color: 'white',
         fontWeight: '600'
