@@ -33,28 +33,38 @@ export default class RegistrationCityAndEmail extends Component {
         BackHandler.addEventListener('hardwareBackPress', () => { return true });
     }
 
-    async setCity(text) {
+    cityValidator(text) {
+        var validator = /[a-zA-Z\s]/
+        return validator.test(text)
+    }
+    setCity(text) {
         this.setState({
             city: text
         });
     }
-    async setEmail(text) {
+    
+    setEmail(text) {
+        var username = text.replace(/[!#$%^&*(),?":{}|<>=/+;:'-]/g, '');
+        
         this.setState({
-            email: text
+            email: username
         });
-        await AsyncStorage.setItem('city', this.state.city);
-        await AsyncStorage.setItem('email', this.state.email);
+        
     }
-    moveToPasswordAndNumber() {
+    
+    
+    async moveToPasswordAndNumber() {
+        await AsyncStorage.setItem('email', this.state.email);
+        await AsyncStorage.setItem('city', this.state.city);
+        if (this.cityValidator(this.state.city)) {
 
-        if (this.state.city !== '' && this.state.email !== '') {
-            if (this.state.email.search('@') !== -1) {
-                if (this.state.email.search('-') !== -1) {
-                    this.props.navigation.navigate('PasswordAndPhoneNumber')
-                }
-                else {
-                    ToastAndroid.showWithGravity('Please Enter a valid Email', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-                }
+            if (this.state.email === '') {
+                ToastAndroid.showWithGravity('Please Enter a valid Email', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+
+
+            } else if (this.state.email !== '' && this.state.city !== '') {
+                this.props.navigation.navigate('PasswordAndPhoneNumber')
+
             }
         }
         else {
@@ -83,7 +93,7 @@ export default class RegistrationCityAndEmail extends Component {
                             placeholder="City"
                             placeholderTextColor="white"
                             onChangeText={(text) => this.setCity(text)}
-                            value={this.state.username}
+                            value={this.state.city}
                             keyboardType="email-address" />
                     </View>
                     <View style={styles.rowView}>
@@ -95,7 +105,7 @@ export default class RegistrationCityAndEmail extends Component {
                             placeholder="Email Address"
                             placeholderTextColor="white"
                             onChangeText={(text) => this.setEmail(text)}
-                            value={this.state.gender} />
+                            value={this.state.email} />
                     </View>
 
                 </View>
