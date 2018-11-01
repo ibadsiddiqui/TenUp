@@ -31,6 +31,7 @@ export default class LoginScreen extends Component {
       loginToken: "",
       isUserLoggedIn: false,
       attemptingLogin: false,
+      message: ''
     }
   }
 
@@ -41,7 +42,7 @@ export default class LoginScreen extends Component {
 
 
   checkUsername(text) {
-    var RegexResult = /^[a-zA-Z0-9]{8,30}$/
+    var RegexResult = /[!#$%^&*(),?":{}|<>=/+;:'-]/g
     return RegexResult.test(text);
   }
   checkPassword(text) {
@@ -51,27 +52,10 @@ export default class LoginScreen extends Component {
 
 
   setUsername(text) {
-    var username = text.replace(/\s+/g, '');
-    username = username.replace(/\@/g, '');
-    username = username.replace(/\!/g, '');
-    username = username.replace(/\./g, '');
-    username = username.replace(/\-/g, '');
-    username = username.replace(/\=/g, '');
-    username = username.replace(/\`/g, '');
-    username = username.replace(/\,/g, '');
-    username = username.replace(/\//g, '');
-    username = username.replace(/\+/g, '');
-    username = username.replace(/\_/g, '');
-    username = username.replace(/\#/g, '');
-    username = username.replace(/\$/g, '');
-    username = username.replace(/\%/g, '');
-    username = username.replace(/\&/g, '');
-    username = username.replace(/\*/g, '');
-    username = username.replace(/\(/g, '');
-    username = username.replace(/\)/g, '');
+    // var username = text.replace(/[!#$%^&*(),?":{}|<>=/+;:'-]/g, '');
 
     this.setState({
-      username: username
+      username: text
     });
   }
 
@@ -85,7 +69,7 @@ export default class LoginScreen extends Component {
   async onSubmit() {
     if (this.state.password !== "" && this.state.username !== "") {
 
-      if (this.checkUsername(this.state.username.toString())) {
+      if (!this.checkUsername(this.state.username.toString())) {
         if (this.checkPassword(this.state.password.toString())) {
           this.setState({
             attemptingLogin: true,
@@ -95,8 +79,8 @@ export default class LoginScreen extends Component {
             fetch('http://192.168.15.145:3000/api/auth/login', {
               method: 'POST', // or 'PUT'
               body: JSON.stringify({
-                username: "Ibadsiddiqui01",
-                password: "Ibad0110"
+                username: this.state.username,
+                password: this.state.password
               }), // data can be `string` or {object}!
               headers: {
                 'Accept': 'application/json',
@@ -104,37 +88,54 @@ export default class LoginScreen extends Component {
               }
             }).then(res => res.json())
               .then(async response => {
-                if (response.isUserLoggedIn) {
+                if (response.isUserLoggedIn !== undefined && response.isUserLoggedIn === true) {
                   await AsyncStorage.setItem('loginToken', response.token);
                   this.setState({
+                    username: '',
+                    password: '',
                     isUserLoggedIn: response.isUserLoggedIn,
                     attemptingLogin: false,
                   })
                   // this.props.navigation.navigate('ProfileScreen')
                 } else {
                   this.setState({
+
+                    username: '',
+                    password: '',
                     attemptingLogin: false,
-                    isUserLoggedIn: response.isUserLoggedIn,
+                    isUserLoggedIn: false,
+                    message: response.message
 
                   })
+
+                  if (this.state.message == "Unauthorized") {
+
+                    ToastAndroid.showWithGravity("Username does not exist", ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                    this.props.navigation.navigate('LoginScreen')
+
+                  } else if (this.state.message == "Verify your Email") {
+
+                    ToastAndroid.showWithGravity(this.state.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                    this.props.navigation.navigate('LoginScreen')
+                  }
+
                 }
               })
               .catch(error => Alert.alert('Error:', error));
           }, 3000);
         } else {
-          ToastAndroid.showWithGravity('Please Enter A Valid Password', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+          ToastAndroid.showWithGravity('Please Enter A Valid Password', ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
-      }
-      else {
-        ToastAndroid.showWithGravity('Please Enter A Valid Username', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+      }else {
+        ToastAndroid.showWithGravity('A Username should only have Alphabets and Numbers. No Special Characters.', ToastAndroid.SHORT, ToastAndroid.CENTER);
       }
     } else {
-      ToastAndroid.showWithGravity('Please Enter Your Credentials', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+      ToastAndroid.showWithGravity('Please Enter Your Credentials', ToastAndroid.SHORT, ToastAndroid.CENTER);
     }
 
   }
 
-  moveToSignUp(){
+  moveToSignUp() {
     this.props.navigation.navigate('RegistrationScreen')
   }
   render() {
