@@ -8,6 +8,7 @@ import {
     TextInput,
     AsyncStorage,
     TouchableOpacity,
+    ToastAndroid
 } from 'react-native'
 import styles from "./../Styles/RegistrationScreenStyles";
 import SplashScreen from 'react-native-splash-screen'
@@ -33,7 +34,7 @@ export default class RegisterScreen extends Component {
         BackHandler.addEventListener('hardwareBackPress', () => { return true });
     }
 
-    async setUsername(text) {
+    setUsername(text) {
 
         var username = text.replace(/\s+/g, '');
         username = username.replace(/\@/g, '');
@@ -58,11 +59,10 @@ export default class RegisterScreen extends Component {
             username: username
         });
     }
-    async setFullName(text) {
+    setFullName(text) {
         this.setState({
             fullname: text
         });
-        
     }
     async moveToAgeAndGender() {
         await AsyncStorage.setItem('fullname', this.state.fullname);
@@ -71,7 +71,7 @@ export default class RegisterScreen extends Component {
         if (this.state.fullname !== '' && this.state.username !== '') {
             this.props.navigation.navigate('AgeAndGender');
         } else {
-            ToastAndroid.showWithGravity('Please Enter Your Name and Username', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+            ToastAndroid.showWithGravity('Please Enter Your Full Name and Username', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         }
     }
     render() {
