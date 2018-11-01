@@ -35,24 +35,31 @@ export default class RegistrationAgeAndGender extends Component {
         BackHandler.addEventListener('hardwareBackPress', () => { return true });
     }
 
-    async setAge(text) {
+    setAge(text) {
+        this.setState({
+            age : ''            
+        })
         this.setState({
             age: text
         });
 
-        await AsyncStorage.setItem('age', this.state.age)
-
+        
     }
-    async setGender(text) {
+    setGender(text) {
+        this.setState({
+            gender : "",
+        })
+        
+        
         this.setState({
             gender: text
         });
-        await AsyncStorage.setItem('gender', this.state.gender)
-
+        
     }
-    moveToCityAndEmail() {
-
-
+    async moveToCityAndEmail() {
+        await AsyncStorage.setItem('gender', this.state.gender)
+        await AsyncStorage.setItem('age', this.state.age)
+        
         if (this.state.gender !== '' && this.state.age !== '') {
             this.props.navigation.navigate('CityAndEmail')
         } else {
@@ -105,7 +112,7 @@ export default class RegistrationAgeAndGender extends Component {
                             style={styles.genderPickerStyle}
                             onValueChange={(itemValue) => this.setGender(itemValue)}>
                             <Picker.Item label="Male" value="Male" />
-                            <Picker.Item label="Femail" value="Female" />
+                            <Picker.Item label="Female" value="Female" />
                         </Picker>
                     </View>
 

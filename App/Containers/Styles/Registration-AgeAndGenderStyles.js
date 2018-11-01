@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         paddingLeft: width * 0.7,
         marginLeft: width * 0.085,
-        marginTop: -(width * 0.045),
+        marginTop: -(width * 0.04),
     },
     rowView: {
         flexDirection: 'row',
