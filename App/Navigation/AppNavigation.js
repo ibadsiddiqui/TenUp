@@ -7,7 +7,10 @@ import ConfirmPINScreen from './../Containers/Screens/ConfirmPINScreen';
 
 import LoginScreen from './../Containers/Screens/LoginScreen'
 import RegistrationScreen from './../Containers/Screens/RegisterationScreen'
-// import ProfileScreen from './../Containers/Screens/ProfileScreen'
+import RegistrationAgeAndGender from './../Containers/Screens/Registration-AgeAndGender';
+import RegistrationCityAndEmail from './../Containers/Screens/Registration-CityAndEmail';
+import RegistrationPasswordAndPhoneNumber from './../Containers/Screens/Registration-PasswordAndPhoneNumber'
+import ProfileScreen from './../Containers/Screens/ProfileScreen'
 // import ChangePasswordScreen from './../Containers/Screens/ChangePasswordScreen';
 
 // Manifest of possible screens
@@ -20,13 +23,19 @@ const PrimaryNav = StackNavigator({
     headerLeft: null
   },
   LoginScreen: { screen: LoginScreen },
+
   RegistrationScreen: { screen: RegistrationScreen },
-  // ProfileScreen: { screen: ProfileScreen },
+  AgeAndGender: { screen: RegistrationAgeAndGender},
+  CityAndEmail: {screen: RegistrationCityAndEmail},
+  PasswordAndPhoneNumber: {screen: RegistrationPasswordAndPhoneNumber},
+
+  ProfileScreen: { screen: ProfileScreen },
+  
   // ChangePassswordScreen: { screen: ChangePasswordScreen }
 }, {
     // Default config for all screens
     headerMode: 'none',
-    initialRouteName: 'RegistrationScreen',
+    initialRouteName: 'LoginScreen',
     navigationOptions: {
       //
     }
