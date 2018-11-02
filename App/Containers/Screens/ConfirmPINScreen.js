@@ -1,177 +1,149 @@
 
 import React, { Component } from 'react';
 import {
-  Alert,
-  AsyncStorage,
-  Keyboard,
-  KeyboardAvoidingView,
-  Text,
-  TextInput,
-  ToastAndroid,
-  TouchableOpacity,
+
   View,
+  Text,
+  StatusBar,
+  Image,
+  TouchableOpacity,
   BackHandler,
 } from 'react-native';
 import styles from '../Styles/PINScreenStyles';
-
+import SplashScreen from 'react-native-splash-screen';
 export default class ConfirmPINScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.textInput1 = React.createRef();
-    this.textInput2 = React.createRef();
-    this.textInput3 = React.createRef();
-    this.textInput4 = React.createRef();
-
-    this.focusTextInput2 = this.focusTextInput2.bind(this);
-    this.focusTextInput3 = this.focusTextInput3.bind(this);
-    this.focusTextInput4 = this.focusTextInput4.bind(this);
-
-
-    this.onSubmit = this.onSubmit.bind(this);
-
-    this.defaultState = {
-      password: "",
-      input1: "", // targeting input individual boxes
-      input2: "",
-      input3: "",
-      input4: "",
-    }
-    this.state = this.defaultState;
   }
 
 
   componentDidMount() {
+    SplashScreen.hide()
     BackHandler.addEventListener('hardwareBackPress', () => { return true });
   }
 
-  async onSubmit() {
-    try {
 
-      // reset the values of those input boxes
-      this.setState({
-        input1: '',
-        input2: '',
-        input3: '',
-        input4: '',
-      })
-
-      if (this.state.password.length !== 4) {
-
-        this.textInput1.current.focus();
-        ToastAndroid.showWithGravity("Please Enter a 4-digit pin", ToastAndroid.SHORT, ToastAndroid.BOTTOM)
-
-        this.setState({ ...this.defaultState });
-
-      } else {
-
-        const value = await AsyncStorage.getItem('PINCode');
-
-        if (this.state.password !== value.toString()) {
-
-          this.textInput1.current.focus();
-          ToastAndroid.showWithGravity('Incorrect PIN ', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-          this.setState({ ...this.defaultState });
-
-        } else {
-
-          ToastAndroid.showWithGravity('correct PIN ', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-          this.props.navigation.navigate('LoginScreen')
-
-        }
-
-      }
-    } catch (error) {
-      Alert.alert("Error in PIN", "Please Close the App and Try Again")
-    }
-  }
-
-
-  focusTextInput2(text) {
-    this.setState({
-      input1: text,
-      password: this.state.password.concat(text)
-    })
-    this.textInput2.current.focus();
-  }
-  focusTextInput3(text) {
-    this.setState({
-      input2: text,
-      password: this.state.password.concat(text)
-    })
-    this.textInput3.current.focus();
-  }
-  focusTextInput4(text) {
-    this.setState({
-      input3: text,
-      password: this.state.password.concat(text)
-    })
-    this.textInput4.current.focus();
-  }
-  focusRemove(text) {
-    this.setState({
-      input4: text,
-      password: this.state.password.concat(text)
-    });
-    Keyboard.dismiss()
-  }
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} >
+      <View style={styles.container} >
+        <StatusBar backgroundColor="transparent" translucent={true} />
 
-        <Text style={styles.centered}>Enter a PIN</Text>
-        <View style={styles.rowView}>
-          <TextInput
-            keyboardType="number-pad"
-            maxLength={1}
-            onChangeText={(text) => this.focusTextInput2(text)}
-            placeholder="*"
-            ref={this.textInput1}
-            style={styles.textInput}
-            secureTextEntry
-            value={this.state.input1} />
+        <Image source={require('./../../Assets/pincode-screen/background.png')} resizeMode="cover" style={styles.backgroundImage} />
 
-          <TextInput
-            keyboardType="number-pad"
-            maxLength={1}
-            onChangeText={(text) => this.focusTextInput3(text)}
-            placeholder="*"
-            ref={this.textInput2}
-            style={styles.textInput}
-            secureTextEntry
-            value={this.state.input2} />
-
-          <TextInput
-            keyboardType="number-pad"
-            maxLength={1}
-            onChangeText={(text) => this.focusTextInput4(text)}
-            placeholder="*"
-            ref={this.textInput3}
-            style={styles.textInput}
-            secureTextEntry
-            value={this.state.input3} />
-
-          <TextInput
-            keyboardType="number-pad"
-            maxLength={1}
-            onChangeText={(text) => this.focusRemove(text)}
-            placeholder="*"
-            ref={this.textInput4}
-            style={styles.textInput}
-            secureTextEntry
-            value={this.state.input4} />
-
+        <View style={styles.PINCodeHeaderContainer}>
+          <Text style={styles.PINCodeHeaderText}>For your security{'\n'}PIN code is needed </Text>
         </View>
 
-        <View style={styles.containerBtn}>
-          <TouchableOpacity
-            onPress={this.onSubmit}
-            style={styles.btn}>
-            <Text style={styles.btnText}>Save</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.backBtnContainer}>
+          <Image source={require('./../../Assets/pincode-screen/cut.png')} style={styles.backBtn} />
+        </TouchableOpacity>
+
+        <Image source={require('./../../Assets/pincode-screen/bar.png')} style={styles.inputUnderline} />
+
+        <View style={styles.numericContainer}>
+
+          <View style={styles.rowView}>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <Text style={[styles.numericHeaderKey, styles.textCenter]}>1</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+
+
+              <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
+                <Text style={[styles.numericHeaderKey, , styles.textCenter]}>2</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>ABC</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <View>
+                <Text style={[styles.numericHeaderKey, styles.textCenter]}>3</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>DEF</Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.rowView}>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <Text style={[styles.numericHeaderKey, styles.textCenter]}>4</Text>
+              <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>GHI</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+
+
+              <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
+                <Text style={[styles.numericHeaderKey, , styles.textCenter]}>5</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>JKL</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <View>
+                <Text style={[styles.numericHeaderKey, styles.textCenter]}>6</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>MNO</Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.rowView}>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <Text style={[styles.numericHeaderKey, styles.textCenter]}>7</Text>
+              <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>PQRS</Text>
+
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+
+
+              <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
+                <Text style={[styles.numericHeaderKey, , styles.textCenter]}>8</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>TUV</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <View>
+                <Text style={[styles.numericHeaderKey, styles.textCenter]}>9</Text>
+                <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>WXYZ</Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.rowView}>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <Text style={[styles.numericHeaderKey, styles.textCenter]}>*</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+
+
+              <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
+                <Text style={[styles.numericHeaderKey, , styles.textCenter]}>0</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.numbericBtn}>
+              <View>
+                <Text style={[styles.numericHeaderKey, styles.textCenter]}>#</Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+
+
         </View>
-      </KeyboardAvoidingView >
+      </View>
     );
   }
 }
