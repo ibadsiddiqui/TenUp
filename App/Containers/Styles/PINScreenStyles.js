@@ -13,11 +13,16 @@ const styles = StyleSheet.create({
         marginBottom: height * 0.02,
 
     },
+    colorWhite:{
+        color: 'white'
+    },
     backBtn: {
         width: width * 0.07,
         height: height * 0.025,
     },
-
+    stericKey:{
+        marginTop: 3
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
