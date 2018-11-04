@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation'
 
 import NoWifiScreen from './../Containers/Screens/NoWifiScreen';
 import SplashScreenLoader from './../Containers/Screens/SplashScreen';
-import SetPINScreen from './../Containers/Screens/SetPINScreen';
+// import SetPINScreen from './../Containers/Screens/SetPINScreen';
 import ConfirmPINScreen from './../Containers/Screens/ConfirmPINScreen';
 
 import LoginScreen from './../Containers/Screens/LoginScreen'
@@ -17,7 +17,7 @@ import ProfileScreen from './../Containers/Screens/ProfileScreen'
 const PrimaryNav = StackNavigator({
   SplashScreen: { screen: SplashScreenLoader },
   NoWifiScreen: { screen: NoWifiScreen },
-  SetPINScreen: { screen: SetPINScreen },
+  // SetPINScreen: { screen: SetPINScreen },
   ConfirmPINScreen: {
     screen: ConfirmPINScreen,
     headerLeft: null
