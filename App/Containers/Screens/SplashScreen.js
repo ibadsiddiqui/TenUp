@@ -82,14 +82,14 @@ export default class SplashScreenLoader extends Component {
     }
     render() {
 
-        const Load = <Loader/>
+        const Load = <Loader />
         return (
-            this.state.isFetching == true && 
-                Load
-                            ||
-            (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('SetPINScreen')
-                            ||
+            this.state.isFetching == true &&
+            Load
+            ||
+            (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('ConfirmPINScreen')
+            ||
             (!this.state.offline == true && this.state.online == false) && this.props.navigation.navigate('NoWifiScreen')
-         )
+        )
     }
 }

@@ -1,13 +1,14 @@
 
 import React, { Component } from 'react';
 import {
-
-  View,
-  Text,
-  StatusBar,
-  Image,
-  TouchableOpacity,
+  AsyncStorage,
+  ToastAndroid,
   BackHandler,
+  Image,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import styles from '../Styles/PINScreenStyles';
 import SplashScreen from 'react-native-splash-screen';
@@ -16,22 +17,56 @@ export default class ConfirmPINScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      PIN: [ ]
+      PIN: [],
+      value:null
     }
   }
 
-
+  async componentWillMount(){
+    const value = await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
+    if(value !== null){
+      this.setState({
+        value : JSON.parse(value)
+      })
+    } else {
+      return;
+    }
+  }
   componentDidMount() {
     SplashScreen.hide()
     BackHandler.addEventListener('hardwareBackPress', () => { return true });
   }
 
-  enterPIN(number) {
-    this.setState((prevState, props) => ({
-      PIN: [...prevState.PIN, number]
-    }));
+  async enterPIN(number) {
+    if (this.state.PIN.length <= 2) {
+      this.setState((prevState) => ({
+        PIN: [...prevState.PIN, number]
+      }));
+      // await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
+      // this.props.navigation.navigate('LoginScreen')
+    } else {
+
+      this.setState((prevState) => ({
+        PIN: [...prevState.PIN, number]
+      }));
+      await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
+      if(this.state.PIN === this.state.value){
+        ToastAndroid.show('Navigating to login screen');
+        this.props.navigation.navigate('LoginScreen')
+      } else {
+        this.props.navigation.navigate('confirmPINScreen')        
+      }
+    }
   }
 
+  async removeLastPIN() {
+    this.state.PIN.pop()
+    this.setState( prevState => ({
+      PIN: [...prevState.PIN]
+    }));
+    await AsyncStorage.setItem('PINCode', '')
+
+  }
   render() {
     return (
       <View style={styles.container} >
@@ -41,10 +76,10 @@ export default class ConfirmPINScreen extends Component {
 
         <Text style={{ top: 180, color: 'white', position: 'absolute', fontSize: 18 }}>{this.state.PIN}</Text>
         <View style={styles.PINCodeHeaderContainer}>
-          <Text style={styles.PINCodeHeaderText}>For your security{'\n'}PIN code is needed </Text>
+          <Text style={styles.PINCodeHeaderText}>For your security a 4-digit{'\n'}PIN code is needed </Text>
         </View>
 
-        <TouchableOpacity style={styles.backBtnContainer}>
+        <TouchableOpacity style={styles.backBtnContainer} onPress={() => this.removeLastPIN()}>
           <Image source={require('./../../Assets/pincode-screen/cut.png')} style={styles.backBtn} />
         </TouchableOpacity>
 
