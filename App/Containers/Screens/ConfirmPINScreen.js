@@ -18,31 +18,30 @@ export default class ConfirmPINScreen extends Component {
     super(props);
     this.state = {
       PIN: [],
-      value:null
+      value: []
     }
   }
 
-  async componentWillMount(){
+  async componentDidMount() {
+    SplashScreen.hide()
     const value = await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
-    if(value !== null){
+    if (value !== null) {
       this.setState({
-        value : JSON.parse(value)
+        value: value
       })
     } else {
       return;
     }
-  }
-  componentDidMount() {
-    SplashScreen.hide()
     BackHandler.addEventListener('hardwareBackPress', () => { return true });
   }
+
 
   async enterPIN(number) {
     if (this.state.PIN.length <= 2) {
       this.setState((prevState) => ({
         PIN: [...prevState.PIN, number]
       }));
-      // await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
+      await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
       // this.props.navigation.navigate('LoginScreen')
     } else {
 
@@ -50,11 +49,15 @@ export default class ConfirmPINScreen extends Component {
         PIN: [...prevState.PIN, number]
       }));
       await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
-      if(this.state.PIN === this.state.value){
-        ToastAndroid.show('Navigating to login screen');
+      if (this.state.PIN === this.state.value) {
+        ToastAndroid.show('Navigating to login screen', ToastAndroid.SHORT);
         this.props.navigation.navigate('LoginScreen')
       } else {
-        this.props.navigation.navigate('confirmPINScreen')        
+        const value = await AsyncStorage.getItem('PINCode')
+
+        ToastAndroid.show(value, ToastAndroid.SHORT);
+
+        this.props.navigation.navigate('confirmPINScreen')
       }
     }
   }

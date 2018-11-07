@@ -11,7 +11,11 @@ import RegistrationAgeAndGender from './../Containers/Screens/Registration-AgeAn
 import RegistrationCityAndEmail from './../Containers/Screens/Registration-CityAndEmail';
 import RegistrationPasswordAndPhoneNumber from './../Containers/Screens/Registration-PasswordAndPhoneNumber'
 import ProfileScreen from './../Containers/Screens/ProfileScreen'
+import DashboardScreen from './../Containers/Screens/DashboardScreen'
+
 // import ChangePasswordScreen from './../Containers/Screens/ChangePasswordScreen';
+
+
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
@@ -30,12 +34,14 @@ const PrimaryNav = StackNavigator({
   PasswordAndPhoneNumber: {screen: RegistrationPasswordAndPhoneNumber},
 
   ProfileScreen: { screen: ProfileScreen },
+
+  DashboardScreen: {screen: DashboardScreen}
   
   // ChangePassswordScreen: { screen: ChangePasswordScreen }
 }, {
     // Default config for all screens
     headerMode: 'none',
-    initialRouteName: 'SplashScreen',
+    initialRouteName: 'DashboardScreen',
     navigationOptions: {
       //
     }
