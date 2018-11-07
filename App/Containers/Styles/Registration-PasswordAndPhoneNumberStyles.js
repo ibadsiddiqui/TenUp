@@ -87,6 +87,42 @@ const styles = StyleSheet.create({
         height: 40,
     },
 
+    textBoxBtnHolder:
+    {
+        position: 'relative',
+        alignSelf: 'stretch',
+        justifyContent: 'center'
+    },
+
+    textBox:
+    {
+        fontSize: 18,
+        alignSelf: 'stretch',
+        height: 45,
+        paddingRight: 45,
+        paddingLeft: 8,
+        borderWidth: 1,
+        paddingVertical: 0,
+        borderColor: 'grey',
+        borderRadius: 5
+    },
+
+    visibilityBtn:
+    {
+        position: 'absolute',
+        right: 3,
+        height: 40,
+        width: 35,
+        padding: 5
+    },
+
+    btnImage:
+    {
+        resizeMode: 'contain',
+        height: '100%',
+        width: '100%'
+    }
+
 });
 
 export default styles;
