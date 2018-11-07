@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     },
     lowerNavBarIcons:{
         width: width * 0.09,
-        height: height * 0.05,
+        height: height * 0.055,
     },
     iconsContainer:{
         marginLeft: width * 0.09,
-        marginTop: width * 0.03
+        marginTop: width * 0.025
     }
 });
 
