@@ -11,7 +11,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     MarginTopScreenTupAddress: {
-        marginTop: height * 0.2
+        marginTop: height * 0.19,
+        marginBottom: height * 0.02,
+
     },
     TupCode: {
         color: '#499FDB',
@@ -23,8 +25,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     qrCodeSize: {
-        width: width * 0.32,
-        height: width * 0.32,
+        width: width * 0.25,
+        height: width * 0.25,
         marginLeft: width * 0.14,
         marginTop: height * 0.73,
     },
