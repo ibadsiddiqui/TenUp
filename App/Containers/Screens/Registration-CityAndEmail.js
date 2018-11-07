@@ -43,6 +43,11 @@ export default class RegistrationCityAndEmail extends Component {
         });
     }
     
+    EmailValidator(text)
+    {
+        var validator =/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+        return validator.test(text)
+    }
     setEmail(text) {
         var username = text.replace(/[!#$%^&*(),?":{}|<>=/+;:'-]/g, '');
         
@@ -58,17 +63,20 @@ export default class RegistrationCityAndEmail extends Component {
         await AsyncStorage.setItem('city', this.state.city);
         if (this.cityValidator(this.state.city)) {
 
-            if (this.state.email === '') {
+            if (!(this.EmailValidator(this.state.email))) {
                 ToastAndroid.showWithGravity('Please Enter a valid Email', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-
-
-            } else if (this.state.email !== '' && this.state.city !== '') {
+            } 
+            
+            else if (this.state.email !== '' && this.state.city !== '' && this.EmailValidator(this.state.email)) {
                 this.props.navigation.navigate('PasswordAndPhoneNumber')
-
             }
+            else {
+                ToastAndroid.showWithGravity('Please Enter City and Email', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+            }
+           
         }
         else {
-            ToastAndroid.showWithGravity('Please Enter City and Email', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+            ToastAndroid.showWithGravity('Please Enter valid City ', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         }
     }
     render() {

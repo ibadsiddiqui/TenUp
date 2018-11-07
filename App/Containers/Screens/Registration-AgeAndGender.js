@@ -37,31 +37,43 @@ export default class RegistrationAgeAndGender extends Component {
 
     setAge(text) {
         this.setState({
-            age : ''            
+            age: ''
         })
         this.setState({
             age: text
         });
 
-        
+
     }
     setGender(text) {
         this.setState({
-            gender : "",
+            gender: "",
         })
-        
-        
+
+
         this.setState({
             gender: text
         });
-        
+
     }
     async moveToCityAndEmail() {
         await AsyncStorage.setItem('gender', this.state.gender)
         await AsyncStorage.setItem('age', this.state.age)
-        
+        var currentDate=new Date();var m=currentDate.getMonth();var d=currentDate.getDay();var y=currentDate.getFullYear();
+        currentDate=new Date(y,m,d);
+        var InputDate=new Date(this.state.age)
+
         if (this.state.gender !== '' && this.state.age !== '') {
-            this.props.navigation.navigate('CityAndEmail')
+         
+
+            if ((currentDate.getFullYear()-InputDate.getFullYear())<18) {
+                ToastAndroid.showWithGravity('Minimum age requirement 18', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+               
+            }
+            else {
+                this.props.navigation.navigate('CityAndEmail')
+                
+            }
         } else {
             ToastAndroid.showWithGravity('Please Enter Your Age And Gender', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         }
@@ -105,7 +117,7 @@ export default class RegistrationAgeAndGender extends Component {
                         </View>
                         <TextInput
                             style={styles.textInput}
-                            editable={false}/>
+                            editable={false} />
 
                         <Picker
                             selectedValue={this.state.gender}

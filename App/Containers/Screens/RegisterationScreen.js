@@ -54,6 +54,7 @@ export default class RegisterScreen extends Component {
         username = username.replace(/\*/g, '');
         username = username.replace(/\(/g, '');
         username = username.replace(/\)/g, '');
+      
 
         this.setState({
             username: username
@@ -68,9 +69,13 @@ export default class RegisterScreen extends Component {
         await AsyncStorage.setItem('fullname', this.state.fullname);
         await AsyncStorage.setItem('username', this.state.username);
 
-        if (this.state.fullname !== '' && this.state.username !== '') {
+        if (this.state.fullname !== '' && this.state.username !== '' && this.state.username.length >=8) {
             this.props.navigation.navigate('AgeAndGender');
-        } else {
+        } else if(this.state.username.length <8){
+            ToastAndroid.showWithGravity('Username should atleast contain 8 chracters', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+
+        }
+        else {
             ToastAndroid.showWithGravity('Please Enter Your Full Name and Username', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         }
     }
