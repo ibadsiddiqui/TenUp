@@ -3,10 +3,10 @@ const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
     transactionScroll: {
-        marginTop: height * 0.56,
+        marginTop: height * 0.53,
         position: 'absolute',
         width: width,
-        height: height * 0.35,
+        height: height * 0.39,
 
     }
 

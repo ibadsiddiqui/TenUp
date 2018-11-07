@@ -10,61 +10,94 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+const pinCode = 'PINCode';
+
+
 import styles from '../Styles/PINScreenStyles';
 import SplashScreen from 'react-native-splash-screen';
 export default class ConfirmPINScreen extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       PIN: [],
-      value: []
+      value: null,
+      isPinCode: false,
+      savePinCode: []
     }
   }
 
-  async componentDidMount() {
-    SplashScreen.hide()
-    const value = await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
-    if (value !== null) {
-      this.setState({
-        value: value
+  async componentWillMount() {
+    const value = await AsyncStorage.getItem(pinCode);
+    if (value === null) {
+      await this.setState({
+        isPinCode: false
+
       })
-    } else {
-      return;
+      // Alert.alert('no PinCode', JSON.stringify(this.state.savePinCode))
+
     }
+    else {
+      const vaasd = await JSON.parse(value)
+      await this.setState({
+        isPinCode: true,
+        savePinCode: vaasd
+      })
+      // Alert.alert(' PinCode', JSON.stringify(this.state.savePinCode))
+
+    }
+
+  }
+
+  componentDidMount() {
+    SplashScreen.hide()
     BackHandler.addEventListener('hardwareBackPress', () => { return true });
   }
 
+  compare(arr1, arr2) {
+    for (let index = 0; index < arr1.length; index++) {
+      var num1 = arr1[index];
+      var num2 = arr2[index];
+      if (num1 === num2) {
+      }
+      else {
+        return false
+      }
+    }
+    return true
+  }
 
   async enterPIN(number) {
-    if (this.state.PIN.length <= 2) {
-      this.setState((prevState) => ({
-        PIN: [...prevState.PIN, number]
-      }));
-      await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
-      // this.props.navigation.navigate('LoginScreen')
-    } else {
 
-      this.setState((prevState) => ({
-        PIN: [...prevState.PIN, number]
+    if (this.state.PIN.length <= 3) {
+
+      await this.setState((prevState) => ({
+        PIN: [...prevState.PIN, number],
       }));
-      await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
-      if (this.state.PIN === this.state.value) {
-        ToastAndroid.show('Navigating to login screen', ToastAndroid.SHORT);
+    }
+    if (this.state.PIN.length >= 4) {
+      if (this.state.isPinCode) {
+        if (this.compare(this.state.PIN, this.state.savePinCode)) {
+          this.props.navigation.navigate('LoginScreen')
+        }
+
+        else {
+          ToastAndroid.showWithGravity("Incorrect PIN", ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+        }
+      }
+      else {
+        await AsyncStorage.setItem('PINCode', JSON.stringify(this.state.PIN))
+        ToastAndroid.showWithGravity("Setting New PIN Code", ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+
         this.props.navigation.navigate('LoginScreen')
-      } else {
-        const value = await AsyncStorage.getItem('PINCode')
 
-        ToastAndroid.show(value, ToastAndroid.SHORT);
-
-        this.props.navigation.navigate('confirmPINScreen')
       }
     }
   }
 
   async removeLastPIN() {
     this.state.PIN.pop()
-    this.setState( prevState => ({
+    this.setState(prevState => ({
       PIN: [...prevState.PIN]
     }));
     await AsyncStorage.setItem('PINCode', '')
@@ -82,7 +115,7 @@ export default class ConfirmPINScreen extends Component {
           <Text style={styles.PINCodeHeaderText}>For your security a 4-digit{'\n'}PIN code is needed </Text>
         </View>
 
-        <TouchableOpacity style={styles.backBtnContainer} onPress={() => this.removeLastPIN()}>
+        <TouchableOpacity style={styles.backBtnContainer} onPressOut={() => this.removeLastPIN()}>
           <Image source={require('./../../Assets/pincode-screen/cut.png')} style={styles.backBtn} />
         </TouchableOpacity>
 
@@ -92,18 +125,18 @@ export default class ConfirmPINScreen extends Component {
 
           <View style={styles.rowView}>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(1)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('1')}>
               <Text style={[styles.numericHeaderKey, styles.textCenter]}>1</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => this.enterPIN(2)}>
+            <TouchableOpacity onPressOut={() => this.enterPIN('2')}>
               <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
                 <Text style={[styles.numericHeaderKey, , styles.textCenter]}>2</Text>
                 <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>ABC</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(3)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('3')}>
               <View>
                 <Text style={[styles.numericHeaderKey, styles.textCenter]}>3</Text>
                 <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>DEF</Text>
@@ -114,12 +147,12 @@ export default class ConfirmPINScreen extends Component {
 
           <View style={styles.rowView}>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(4)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('4')}>
               <Text style={[styles.numericHeaderKey, styles.textCenter]}>4</Text>
               <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>GHI</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => this.enterPIN(5)}>
+            <TouchableOpacity onPressOut={() => this.enterPIN('5')}>
 
               <View style={[styles.centerHeaderKey, styles.numbericBtn]}>
                 <Text style={[styles.numericHeaderKey, , styles.textCenter]}>5</Text>
@@ -127,7 +160,7 @@ export default class ConfirmPINScreen extends Component {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(6)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('6')}>
               <View>
                 <Text style={[styles.numericHeaderKey, styles.textCenter]}>6</Text>
                 <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>MNO</Text>
@@ -138,13 +171,13 @@ export default class ConfirmPINScreen extends Component {
 
           <View style={styles.rowView}>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(7)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('7')}>
               <Text style={[styles.numericHeaderKey, styles.textCenter]}>7</Text>
               <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>PQRS</Text>
 
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => this.enterPIN(8)}>
+            <TouchableOpacity onPressOut={() => this.enterPIN('8')}>
 
 
               <View style={[styles.centerHeaderKey, styles.numbericBtn]} >
@@ -153,7 +186,7 @@ export default class ConfirmPINScreen extends Component {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.numbericBtn} onPress={() => this.enterPIN(9)}>
+            <TouchableOpacity style={styles.numbericBtn} onPressOut={() => this.enterPIN('9')}>
               <View>
                 <Text style={[styles.numericHeaderKey, styles.textCenter]}>9</Text>
                 <Text style={[styles.numericSubtitleKeys, styles.textCenter]}>WXYZ</Text>
@@ -168,7 +201,7 @@ export default class ConfirmPINScreen extends Component {
               <Text style={[styles.numericHeaderKey, styles.textCenter, styles.colorWhite, styles.stericKey]}>*</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => this.enterPIN(0)}>
+            <TouchableOpacity onPressOut={() => this.enterPIN('0')}>
 
 
               <View style={[styles.centerHeaderKey, styles.numbericBtn]} >
