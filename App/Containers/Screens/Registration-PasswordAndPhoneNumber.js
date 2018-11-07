@@ -28,6 +28,7 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
 
         this.confirmRegistration = this.confirmRegistration.bind(this)
         this.state = {
+            showhidePassword:true,
             password: '',
             phoneNumber: '',
             password2: '',
@@ -36,21 +37,29 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
             movingToLogin: false
         }
     }
+    toggleShowHidePassword=()=>{
+        this.setState({showhidePassword:!this.state.showhidePassword});
 
+    }
     componentDidMount() {
         SplashScreen.hide()
         BackHandler.addEventListener('hardwareBackPress', () => { return true });
     }
-
+  
     checkPassword(text) {
-            var passwordRegex = /^((?=(.*[A-Z]){1})(?=(.*[0-9]){1})(?=.*[a-zA-Z0-9])).{8,}$/;
+        var passwordRegex = /^((?=(.*[A-Z]){1})(?=(.*[0-9]){1})(?=(.*[@\"|!#$%&/*^\-_\+`~:\[\]()=?»«@£§€{}.;'<>_,]){1})(?=.*[a-zA-Z0-9@\"|!#$%&/*^\-_\+`~:\[\]()=?»«@£§€{}.;'<>_,])).{8,}$/;
         return passwordRegex.test(text)
+    }
+    checkPhoneNumber(text){
+        var phoneRegex = /[0-9]{8,13}/;
+        return phoneRegex.test(text)
     }
 
 
     async setPassword(text) {
+        var password=text.replace(/ /g,'');
         this.setState({
-            password: text
+            password: password
         });
         await AsyncStorage.setItem('password', this.state.password)
     }
@@ -63,8 +72,9 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
     }
 
     setPassword2(text) {
+        var password = text.replace(/ /g, '');
         this.setState({
-            password2: text
+            password2: password
         })
 
     }
@@ -78,9 +88,9 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
         const password = await AsyncStorage.getItem('password')
         const phoneNumber = await AsyncStorage.getItem('phoneNumber')
         if (this.state.password !== "" && this.state.phoneNumber !== '') {
+            http://51.144.95.223:81/
 
-
-            if (this.checkPassword(this.state.password)) {
+            if (this.checkPassword(this.state.password) && this.checkPhoneNumber(this.state.phoneNumber)) {
 
                 if (this.state.password2 === this.state.password) {
                     ToastAndroid.show("password matched", ToastAndroid.SHORT)
@@ -142,7 +152,7 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
                     ToastAndroid.show("Password didn't matched  ", ToastAndroid.SHORT);
                 }
             } else {
-                ToastAndroid.show("Set Password of minimum 8 Alpha-numeric character  ", ToastAndroid.SHORT);
+                ToastAndroid.show("Password minimum should be 8 chracters containing 1 capital leter and special character and Phone Number should be between 8 and 13 character ", ToastAndroid.SHORT);
             }
         } else {
             ToastAndroid.show("Please enter values in the field", ToastAndroid.SHORT);
@@ -189,7 +199,11 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
                                 placeholder="Password"
                                 placeholderTextColor="white"
                                 onChangeText={(text) => this.setPassword(text)}
+                                secureTextEntry={this.state.showhidePassword}
                                 value={this.state.password} />
+                            <TouchableOpacity activeOpacity={0.8} style={styles.visibilityBtn} onPress={this.toggleShowHidePassword}>
+                                <Image source={(this.state.showhidePassword) ? require('./../../Assets/signup-screen/blind.png') : require('./../../Assets/signup-screen/eye.png')} style={styles.btnImage} />
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.rowView}>
                             <View style={styles.passwordIconStyle}>
@@ -199,9 +213,12 @@ export default class RegistrationPasswordAndPhoneNumber extends Component {
                                 style={styles.textInput}
                                 placeholder="Confirm Password"
                                 placeholderTextColor="white"
+                                secureTextEntry={this.state.showhidePassword}
                                 onChangeText={(text) => this.setPassword2(text)}
                                 value={this.state.password2} />
+                               
                         </View>
+                        
                         <View style={styles.rowView}>
                             <View style={styles.callIconStyle}>
                                 <Image source={require('./../../Assets/signup-screen/call.png')} style={styles.callIcon} />
