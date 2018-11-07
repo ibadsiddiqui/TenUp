@@ -4,7 +4,7 @@ const { width, height } = Dimensions.get('window')
 const styles = StyleSheet.create({
     sandwichIconContainer: {
         margin: width * 0.04,
-        top: width * 0.1,
+        top: width * 0.08,
         position: 'absolute',
     },
     sandwichIcon: {
