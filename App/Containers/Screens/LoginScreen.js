@@ -53,10 +53,10 @@ export default class LoginScreen extends Component {
 
 
   setUsername(text) {
-    // var username = text.replace(/[!#$%^&*(),?":{}|<>=/+;:'-]/g, '');
+    var username = text.replace(/[!#$%^&*(),?":{}|<>=/+;:'-]/g, '');
 
     this.setState({
-      username: text
+      username: username
     });
   }
 
@@ -90,14 +90,18 @@ export default class LoginScreen extends Component {
             }).then(res => res.json())
               .then(async response => {
                 if (response.isUserLoggedIn !== undefined && response.isUserLoggedIn === true) {
+                  setTimeout(() => {
+                    
+                    this.setState({
+                      username: '',
+                      password: '',
+                      isUserLoggedIn: response.isUserLoggedIn,
+                      attemptingLogin: false,
+                    })
+                  }, 3000);
+                  
                   await AsyncStorage.setItem('loginToken', response.token);
-                  this.setState({
-                    username: '',
-                    password: '',
-                    isUserLoggedIn: response.isUserLoggedIn,
-                    attemptingLogin: false,
-                  })
-                  // this.props.navigation.navigate('ProfileScreen')
+                  this.props.navigation.navigate('DashboardScreen')
                 } else {
                   this.setState({
 
@@ -127,7 +131,7 @@ export default class LoginScreen extends Component {
         } else {
           ToastAndroid.showWithGravity('Please Enter A Valid Password', ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
-      }else {
+      } else {
         ToastAndroid.showWithGravity('A Username should only have Alphabets and Numbers. No Special Characters.', ToastAndroid.SHORT, ToastAndroid.CENTER);
       }
     } else {
