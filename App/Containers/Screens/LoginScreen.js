@@ -19,6 +19,7 @@ import LoginHeader from './../../Component/LoginHeader'
 import LoginFooter from '../../Component/LoginFooter';
 const { height } = Dimensions.get('window')
 
+import FacebookLogin from './../../Component/FacebookLogin'
 
 export default class LoginScreen extends Component {
   constructor() {
@@ -143,7 +144,7 @@ export default class LoginScreen extends Component {
       <View >
         <StatusBar backgroundColor="transparent" translucent={true} />
         <Image source={require('./../../Assets/login-screen/background.png')} resizeMode="cover" style={styles.backgroundImage} />
-
+        {/* <FacebookLogin /> */}
         {
           this.state.attemptingLogin === true && this.state.isUserLoggedIn === false
           &&
