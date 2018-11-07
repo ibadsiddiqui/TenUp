@@ -3,24 +3,26 @@ import {
     View,
     Image,
     StatusBar,
-    TouchableOpacity
+    TouchableWithoutFeedback
 } from 'react-native'
 
 // Route
-import { NativeRouter, Route, Link } from "react-router-native";
+import { Route, Link } from "react-router-native";
 
 // Styles
 import styles from './../Styles/DashboardScreenStyles'
 
 //  Component
 import HomeScreen from './../../Component/HomeScreen/index'
+import SendTup from '../../Component/SendTUP';
 
 export default class DashboardScreen extends Component {
     constructor() {
         super();
         this.state = {
-            routeTo: '',
+            routeTo: '/',
             routingOn: null,
+            pressStatus: false,
         }
     }
 
@@ -35,26 +37,33 @@ export default class DashboardScreen extends Component {
             <View style={styles.container}>
                 <StatusBar translucent={true} backgroundColor="transparent" />
 
-                <HomeScreen />
+                    <Route exact path='/' component={HomeScreen} />
+                    <Route path='/Send' component={SendTup} />
+                    {/* <Route path='/Transaction' component={LoginHeader} /> */}
+
                 <View style={styles.lowerNavBar}>
 
 
-                    <TouchableOpacity onPress={() => this.routeTo('Sent')}>
+                    <Link to="/Send" onPress={() => this.routeTo('Sent')}>
                         <View style={styles.iconsContainer}>
                             {
                                 (this.state.routeTo === 'Sent'
                                     &&
-                                    <Image source={require('./../../Assets/Bottam_tab-assets/sent_unselect.png')} style={styles.lowerNavBarIcons} />)
+                                    <Image source={require('./../../Assets/Bottam_tab-assets/sent_unselect.png')} style={styles.lowerNavBarIcons} />
+                                )
                                 ||
                                 (this.state.routeTo !== 'Sent'
                                     &&
-                                    <Image source={require('./../../Assets/Bottam_tab-assets/sent_select.png')} style={styles.lowerNavBarIcons} />)
+
+                                    <Image source={require('./../../Assets/Bottam_tab-assets/sent_select.png')} style={styles.lowerNavBarIcons} />
+                                )
+
                             }
 
                         </View>
-                    </TouchableOpacity>
+                    </Link>
 
-                    <TouchableOpacity onPress={() => this.routeTo('Receive')}>
+                    <Link to="Receive" onPress={() => this.routeTo('Receive')}>
                         <View style={styles.iconsContainer}>
 
                             {
@@ -69,9 +78,9 @@ export default class DashboardScreen extends Component {
                             }
 
                         </View>
-                    </TouchableOpacity>
+                    </Link>
 
-                    <TouchableOpacity onPress={() => this.routeTo('Transactions')}>
+                    <Link to="Transaction" onPress={() => this.routeTo('Transactions')}>
                         <View style={styles.iconsContainer}>
 
                             {
@@ -87,9 +96,9 @@ export default class DashboardScreen extends Component {
 
 
                         </View>
-                    </TouchableOpacity>
+                    </Link>
 
-                    <TouchableOpacity onPress={() => this.routeTo('Backup')}>
+                    <Link to="Backup" onPress={() => this.routeTo('Backup')}>
 
                         <View style={styles.iconsContainer}>
 
@@ -106,24 +115,24 @@ export default class DashboardScreen extends Component {
 
 
                         </View>
-                    </TouchableOpacity>
+                    </Link>
 
-                    <TouchableOpacity onPress={() => this.routeTo('Setting')}>
+                    <Link to="Settings" onPress={() => this.routeTo('Setting')}>
 
                         <View style={styles.iconsContainer}>
 
                             {
-                                (   this.state.routeTo === 'Setting'
+                                (this.state.routeTo === 'Setting'
                                     &&
                                     <Image source={require('./../../Assets/Bottam_tab-assets/setting_unselect.png')} style={styles.lowerNavBarIcons} />)
-                                    ||
-                                (   this.state.routeTo !== 'Setting'
+                                ||
+                                (this.state.routeTo !== 'Setting'
                                     &&
                                     <Image source={require('./../../Assets/Bottam_tab-assets/setting_select.png')} style={styles.lowerNavBarIcons} />)
 
                             }
                         </View>
-                    </TouchableOpacity>
+                    </Link>
                 </View>
             </View>
         )

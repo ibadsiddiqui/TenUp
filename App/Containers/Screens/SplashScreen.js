@@ -87,7 +87,7 @@ export default class SplashScreenLoader extends Component {
             this.state.isFetching == true &&
             Load
             ||
-            (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('LoginScreen')
+            (this.state.online == true && this.state.offline == false) && this.props.navigation.navigate('ConfirmPINScreen')
             ||
             (!this.state.offline == true && this.state.online == false) && this.props.navigation.navigate('NoWifiScreen')
         )
