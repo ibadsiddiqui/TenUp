@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     profileImage:{
         width: width * 0.24,
-        height: height * 0.12,
+        height: height * 0.14,
     },
     userName:{
         color:'white',
