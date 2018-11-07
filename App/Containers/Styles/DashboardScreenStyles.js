@@ -19,9 +19,18 @@ const styles = StyleSheet.create({
         height: height * 0.055,
     },
     iconsContainer:{
-        marginLeft: width * 0.09,
-        marginTop: width * 0.025
-    }
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        marginLeft: width * 0.055,
+        marginRight: width * 0.055,
+        marginTop: width * 0.025,
+        backgroundColor: 'transparent',
+    },
+    btnPress: {
+        backgroundColor: "transparent"
+    },
 });
 
 export default styles;
